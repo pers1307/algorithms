@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Класс стека в линейной памяти с циклическим заполнение
+ * Класс стека в линейной памяти с циклическим заполнением
  * Сложность стека О(1): любая операция занимает одно арифметическое действие
  * Class CyclicalStack
  */
@@ -10,7 +10,12 @@ class CyclicalStack
     /**
      * Максимальное количество элементов в массиве
      */
-    const count = 10;
+    const maximumCount = 9;
+
+    /**
+     * @var int количество элементов в стеке
+     */
+    private $count;
 
     /**
      * @var int Указатель на следующую позицию в стеке
@@ -25,6 +30,7 @@ class CyclicalStack
     function __construct()
     {
         $this->cursor = 0;
+        $this->count  = 0;
         $this->array  = [];
     }
 
@@ -36,7 +42,8 @@ class CyclicalStack
     public function put($newItem)
     {
         $this->array[$this->cursor] = $newItem;
-        ++$this->cursor;
+        ++$this->count;
+        $this->cursor = ($this->cursor + 1) % ($this::maximumCount + 1);
     }
 
     /**
@@ -46,9 +53,8 @@ class CyclicalStack
      */
     public function get()
     {
-        --$this->cursor;
-        $buf = $this->array[$this->cursor];
-        unset($this->array[$this->cursor]);
+        $buf = $this->array[($this->cursor - $this->count) % ($this::maximumCount + 1)];
+        --$this->count;
 
         return $buf;
     }
@@ -60,7 +66,7 @@ class CyclicalStack
      */
     public function isEmpty()
     {
-        if ($this->cursor === 0) {
+        if ($this->count === 0) {
             return true;
         }
 
