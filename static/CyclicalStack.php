@@ -13,7 +13,7 @@ class CyclicalStack
     const maximumCount = 9;
 
     /**
-     * @var int количество элементов в стеке
+     * @var int Количество элементов в стеке
      */
     private $count;
 
